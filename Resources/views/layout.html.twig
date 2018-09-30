@@ -1,0 +1,45 @@
+{% extends "@App/layout.html.twig" %}
+
+{% block canonical %}{{ path('cedricziel_blog_post_index', {'absolute': true}) }}{% endblock %}
+
+{% block title %}List{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="twelve columns">
+            <ul class="article-list">
+                {% set articles = env.helpers.getSortedContentFolder("articles",contents) %}
+                {% for article in articles %}
+                    {% set featureImage = env.helpers.getPathToLocalAssetWithFilename(article, article.metadata.feature_image) %}
+                    <li itemscope itemType="http://schema.org/BlogPosting">
+                        <h3 class="articleTitle">
+                            <a href="{{ article.url }}"
+                               itemprop="name"
+                               title="Read '{{ article.title }}'">
+                                {{ article.title }}
+                            </a>
+                        </h3>
+
+                        <p class="dateTime">
+                            Posted on <span class="postDate" itemprop="datePublished"
+                                            content="{{ article.createdAt|date('YYYY-MM-DDTHH:MM:SS') }}">{{ article.createdAt|date('y-m-d h:i') }}</span>
+                        </p>
+                        {% if article.metadata.short_description %}
+                            <p itemprop="description">{{ article.metadata.short_description }}</p>
+                        {% else %}
+                            <p itemprop="description">{{ article.intro }}</p>
+                        {% endif %}
+                        <div class="readMore">
+                            <a href="{{ article.url }}"
+                               class="mono button accent"
+                               style="margin-bottom: 25px;"
+                               itemprop="url">
+                                Read More
+                            </a>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+{% endblock %}

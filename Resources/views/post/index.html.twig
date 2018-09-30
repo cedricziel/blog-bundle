@@ -1,0 +1,56 @@
+{% extends '@CedricZielBlog/layout.html.twig' %}
+
+{% block title %}Blog{% endblock %}
+
+{% block canonical -%}
+    {{ url('cedricziel_blog_post_index') }}
+{%- endblock %}
+
+{% block meta %}
+    {{ parent() }}
+    {% for blogPost in blogPosts %}
+        {{ blog_schemaorg(blogPost)|raw }}
+    {% endfor %}
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="twelve columns">
+            <ul class="article-list">
+                {% for article in blogPosts %}
+                    <li>
+                        <h3 class="articleTitle">
+                            <a href="{{ path('cedricziel_blog_post_show', {'post_slug': article.slug}) }}"
+                               title="Read '{{ article.title }}'">
+                                {{ article.title }}
+                            </a>
+                        </h3>
+
+                        {% if article.titleImage is not empty -%}
+                            <figure class="fig_right">
+                                <img src="{{ vich_uploader_asset(article, 'titleImageFile') }}" alt="">
+                            </figure>
+                        {%- endif %}
+
+                        <p class="dateTime">
+                            Posted on <span class="postDate">{{ article.publishedAt|date('Y-m-d') }}</span>
+                        </p>
+                        {% if article.subtitle %}
+                            <p>{{ article.subtitle }}</p>
+                        {% endif %}
+
+                        <div class="readMore">
+                            <a href="{{ path('cedricziel_blog_post_show', {'post_slug': article.slug}) }}"
+                               class="mono button accent"
+                               style="margin-bottom: 25px;">
+                                Read More
+                            </a>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+
+            {{ knp_pagination_render(blogPosts) }}
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,61 @@
+{% extends '@CedricZielBlog/layout.html.twig' %}
+
+{% block canonical -%}
+    {{ url('cedricziel_blog_post_show', {'post_slug': blogPost.slug}) }}
+{%- endblock %}
+
+{% block title %}{{ blogPost.title }}{% endblock %}
+
+{% block meta %}
+    {{ parent() }}
+    <meta property="og:title" content="{{ blogPost.title }}">
+    <meta property="og:url" content="{{ path('cedricziel_blog_post_show', {'post_slug': blogPost.slug}) }}">
+    <meta property="og:site_name" content="Cedric Ziel: Blog">
+    <meta property="og:type" content="blog">
+    <meta property="og:description" content="{{ blogPost.subtitle }}">
+
+    {% if blogPost.titleImage is not empty -%}
+        <meta property="og:image" content="{{ vich_uploader_asset(blogPost, 'titleImageFile') }}">
+    {%- endif %}
+
+    {{ blog_schemaorg(blogPost)|raw }}
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="twelve columns">
+            <article>
+                <div class="small-caption">
+                    {{ blogPost.publishedAt|date('Y-m-d') }}
+                    {% if is_granted("ROLE_ADMIN") %}
+                    <a href="{{ path('easyadmin', {entity: 'BlogPost', action: 'edit', id: blogPost.id}) }}">
+                        <i class="fa fa-pencil"></i> edit
+                    </a>
+                    {% endif %}
+                </div>
+                <h1>{{ blogPost.title }}</h1>
+
+                {% if blogPost.titleImage is not empty -%}
+                    <img src="{{ vich_uploader_asset(blogPost, 'titleImageFile') }}" alt="">
+                {%- endif %}
+
+                {% if blogPost.subtitle %}
+                    <div class="subtitle">{{ blogPost.subtitle }}</div>
+                {% endif %}
+                {{ blogPost.body|raw }}
+            </article>
+        </div>
+    </div>
+    <section class="featureBar darkGrey">
+        <div class="row">
+            <div class="twelve columns">
+                <h2 class="light">No Comments</h2>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('bundles/cedriczielblog/ckeditor/codesnippet/lib/highlight/highlight.pack.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,29 @@
+{
+    "name": "cedricziel/blog-bundle",
+    "description": "A simple blog bundle",
+    "type": "symfony-bundle",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Cedric Ziel",
+            "email": "cedric@cedric-ziel.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "CedricZiel\\BlogBundle\\": "."
+        }
+    },
+    "require": {
+        "doctrine/orm": "^2.5",
+        "egeloen/ckeditor-bundle": "^4.0",
+        "knplabs/knp-paginator-bundle": "^2.5",
+        "spatie/schema-org": "^1.0",
+        "symfony/config": "^3.4|^4.0",
+        "symfony/dependency-injection": "^3.4|^4.0",
+        "symfony/event-dispatcher": "^3.4|^4.0",
+        "symfony/http-foundation": "^3.4|^4.0",
+        "symfony/http-kernel": "^3.4|^4.0",
+        "vich/uploader-bundle": "^1.3"
+    }
+}

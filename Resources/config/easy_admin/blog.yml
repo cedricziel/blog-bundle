@@ -1,0 +1,55 @@
+easy_admin:
+    entities:
+        publishedPosts:
+            class: 'CedricZiel\BlogBundle\Entity\Post'
+            label: 'Published'
+            disabled_actions: ['show', 'new']
+            form:
+                fields:
+                    - { property: 'title' }
+                    - { property: 'slug', type_options: { required: false } }
+                    - { property: 'subtitle' }
+                    - { property: 'createdAt', type_options: { required: false, disabled: true } }
+                    - { property: 'published' }
+                    - { property: 'publishedAt' }
+                    - { property: 'titleImageFile', type: 'vich_image', base_path: "%blog.path.blog_images%" }
+                    - { property: 'body', type: 'ckeditor' }
+            list:
+                actions:
+                    - { name: 'cedricziel_blog_post_preview', label: 'Preview', icon: 'plus-square', type: 'route' }
+                dql_filter: 'entity.publishedAt IS NOT null AND entity.published = 1'
+                title: 'Published Blog Posts'
+                fields:
+                    - 'title'
+                    - 'createdAt'
+                    - 'publishedAt'
+                sort: ['publishedAt', 'DESC']
+            edit:
+                title: 'Edit Blog Post (%%entity_id%%)'
+        unpublishedBlogPosts:
+            class: 'CedricZiel\BlogBundle\Entity\Post'
+            label: 'Unpublished'
+            disabled_actions: ['show']
+            form:
+                fields:
+                    - { property: 'title' }
+                    - { property: 'createdAt', type_options: { required: false, disabled: true } }
+                    - { property: 'slug', type_options: { required: false } }
+                    - { property: 'subtitle' }
+                    - { property: 'published' }
+                    - { property: 'publishedAt' }
+                    - { property: 'titleImageFile', type: 'vich_image', base_path: "%blog.path.blog_images%" }
+                    - { property: 'body', type: 'ckeditor' }
+            list:
+                actions:
+                    - { name: 'cedricziel_blog_post_preview', label: 'Preview', icon: 'plus-square', type: 'route'}
+                dql_filter: 'entity.publishedAt IS null OR entity.published = false'
+                title: 'Unpublished Blog Posts'
+                fields:
+                    - 'title'
+                    - 'createdAt'
+                    - 'published'
+                    - 'publishedAt'
+                sort: ['publishedAt', 'DESC']
+            edit:
+                title: 'Edit Blog Post (%%entity_id%%)'

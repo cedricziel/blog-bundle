@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>Cedric Ziel: Blog Articles</title>
+        <link>http://blog.cedric-ziel.com</link>
+        <atom:link href="{{ url('cedricziel_blog_feed_feed', {'_format': 'xml'}) }}" rel="self" type="application/rss+xml" />
+        <description>Webdeveloper, TYPO3-Addict. What else could life offer?</description>
+        {% for item in items %}
+            <item>
+                <title>{{ item.title }}</title>
+                <author>cedric@cedric-ziel.com</author>
+                <link>{{ url('cedricziel_blog_post_show', {'post_slug': item.slug}) }}</link>
+                <guid isPermaLink="true">{{ url('cedricziel_blog_post_show', {'post_slug': item.slug}) }}</guid>
+                <pubDate>{{ item.publishedAt|date("D, d M Y h:i:s O") }}</pubDate>
+                <description><![CDATA[{{ item.body|raw }}]]></description>
+            </item>
+        {% endfor %}
+    </channel>
+</rss>
